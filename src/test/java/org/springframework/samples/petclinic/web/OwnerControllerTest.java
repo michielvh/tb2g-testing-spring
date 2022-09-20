@@ -66,11 +66,25 @@ class OwnerControllerTest {
     @Test
     void testNewOwnerPostValid() throws Exception {
         mockMvc.perform(post("/owners/new")
-                 .param("firstName","Jimmy").param("lastName","Buffet")
-                 .param("Address","123 Duval St")
+                 .param("firstName","Jimmy")
+                 .param("lastName","Buffet")
+                 .param("address","123 Duval St")
                  .param("city","Key West")
                  .param("telephone","4153654123"))
                 .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void testNewOwnerPostNotValid() throws Exception {
+        mockMvc.perform(post("/owners/new")
+                        .param("firstName","Jimmy")
+                        .param("lastName","Buffet")
+                        .param("city","Key West"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeHasErrors("owner"))
+                .andExpect(model().attributeHasFieldErrors("owner","address"))
+                .andExpect(model().attributeHasFieldErrors("owner","telephone"))
+                .andExpect(view().name("owners/createOrUpdateOwnerForm"));
     }
 
     @Test
