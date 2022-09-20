@@ -22,6 +22,7 @@ import net.bytebuddy.agent.builder.AgentBuilder;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -61,6 +62,31 @@ class OwnerControllerTest {
     @AfterEach
     void tearDown() {
         reset(clinicService);
+    }
+
+    @Test
+    void testUpdateOwnerPostValid() throws Exception {
+
+        mockMvc.perform(post("/owners/{ownerId}/edit",1)
+                        .param("firstName","Jimmy")
+                        .param("lastName","Buffet")
+                        .param("address","123 Duval St")
+                        .param("city","Key West")
+                        .param("telephone","4153654123"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/owners/{ownerId}"));
+
+    }
+
+    @Test
+    void testUpdateOwnerPostNotValid() throws Exception {
+
+        mockMvc.perform(post("/owners/{ownerId}/edit",1)
+                        .param("firstName","Jimmy")
+                        .param("lastName","Buffet")
+                        .param("city","Key West"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/createOrUpdateOwnerForm"));
     }
 
     @Test
