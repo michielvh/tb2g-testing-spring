@@ -16,7 +16,7 @@ class HearingInterpreterComponentScanTest {
     //vs innerclass
     // vs @SpringJUnitConfig(classes = {BaseConfig.class, LaurelConfig.class})     (laural = primary)
     @Configuration
-    @ComponentScan("org.springframework.samples.petclinic.sfg")  //goes to java package - not test
+    @ComponentScan("org.springframework.samples.petclinic.sfg")  // goes to both java and test packages
     static class TestConfig {
 
     }
