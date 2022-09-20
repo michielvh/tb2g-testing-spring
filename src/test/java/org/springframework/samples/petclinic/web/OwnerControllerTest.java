@@ -35,6 +35,7 @@ class OwnerControllerTest {
     @Test
     void testFindByNameNotFound() throws Exception {
         mockMvc.perform(get("/owners")
+                // param get's bound to owner lastName
                     .param("lastName", "Dont find ME!"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("owners/findOwners"));
