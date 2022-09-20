@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.sfg;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,16 +8,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 
-
+@RunWith(SpringRunner.class)
+// To use spring context, we need to point it to our config classes
+@ContextConfiguration(classes = {BaseConfig.class, LaurelConfig.class})
 public class HearingInterpreterTest {
-// USES BEAN HEARINGINTERPRETER FROM BASE CONFIG CLASS
+
+    // Managed by Spring Context
+    @Autowired
     HearingInterpreter hearingInterpreter;
 
-    // USES BEAN LAURELWORDPRODUCER FROM LAURALCONFIG.CLASS
-    @Before
-    public void setUp() throws Exception{
-        hearingInterpreter = new HearingInterpreter(new LaurelWordProducer());
-    }
     @Test
     public void whatIheard() {
         String word = hearingInterpreter.whatIheard();
