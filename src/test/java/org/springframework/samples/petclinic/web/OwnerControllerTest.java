@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -60,6 +61,16 @@ class OwnerControllerTest {
     @AfterEach
     void tearDown() {
         reset(clinicService);
+    }
+
+    @Test
+    void testNewOwnerPostValid() throws Exception {
+        mockMvc.perform(post("/owners/new")
+                 .param("firstName","Jimmy").param("lastName","Buffet")
+                 .param("Address","123 Duval St")
+                 .param("city","Key West")
+                 .param("telephone","4153654123"))
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
